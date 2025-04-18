@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/product_service.dart';
 import '../models/product_model.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -466,7 +467,7 @@ class _HomeScreenState extends State<HomeScreen> {
       notchMargin: 8,
       color: Colors.white,
       elevation: 8,
-      child: const SizedBox(
+      child: SizedBox(
         height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -479,7 +480,13 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.search),
               color: Colors.grey,
-              onPressed: null,
+              onPressed:
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  ),
             ),
             SizedBox(width: 48),
             IconButton(
