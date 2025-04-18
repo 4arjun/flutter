@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = true;
       });
       final products = await ProductService.fetchProducts();
-      // Shuffle the products to get different order each time
       products.shuffle();
       setState(() {
         _products = products;
@@ -43,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = false;
       });
-      // Handle error appropriately
       debugPrint('Error fetching products: $e');
     }
   }
@@ -55,28 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Product> get featuredProducts {
-    // Get random products from all categories for featured section
     if (_products.isEmpty) return [];
     final shuffled = List<Product>.from(_products)..shuffle();
     return shuffled.take(10).toList();
-  }
-
-  double wp(BuildContext context, double width) =>
-      MediaQuery.of(context).size.width * (width / 430);
-  double hp(BuildContext context, double height) =>
-      MediaQuery.of(context).size.height * (height / 932);
-  String getGreeting() {
-    final hour = DateTime.now().hour;
-
-    if (hour >= 5 && hour < 12) {
-      return "🌤 Good Morning";
-    } else if (hour >= 12 && hour < 18) {
-      return "☀️ Good Afternoon";
-    } else if (hour >= 18 && hour < 22) {
-      return "🌇 Good Evening";
-    } else {
-      return "🌙 Good Night";
-    }
   }
 
   @override
@@ -89,21 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.restaurant_menu, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: buildBottomNavBar(context),
+      bottomNavigationBar: buildBottomNavBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: wp(context, 20)),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildHeader(context),
-                SizedBox(height: hp(context, 24)),
-                buildFeaturedSection(context),
-                SizedBox(height: hp(context, 24)),
-                buildCategorySection(context),
-                SizedBox(height: hp(context, 24)),
-                buildPopularSection(context),
+                buildHeader(),
+                const SizedBox(height: 24),
+                buildFeaturedSection(),
+                const SizedBox(height: 24),
+                buildCategorySection(),
+                const SizedBox(height: 24),
+                buildPopularSection(),
               ],
             ),
           ),
@@ -112,9 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ----------------------------
-  // Header
-  Widget buildHeader(BuildContext context) {
+  Widget buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -125,13 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
               getGreeting(),
               style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
-
-            Text(
+            const Text(
               "Alena Sabyan",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: wp(context, 24),
-              ),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
             ),
           ],
         ),
@@ -141,9 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.all(8),
-          child: Icon(
+          child: const Icon(
             Icons.shopping_cart_outlined,
-            size: wp(context, 24),
+            size: 24,
             color: Colors.black87,
           ),
         ),
@@ -151,8 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ----------------------------
-  Widget buildFeaturedSection(BuildContext context) {
+  Widget buildFeaturedSection() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -166,17 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
           "Featured",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        SizedBox(height: hp(context, 16)),
+        const SizedBox(height: 16),
         SizedBox(
-          height: hp(context, 180),
+          height: 180,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: featuredProducts.length,
-            separatorBuilder: (_, __) => SizedBox(width: wp(context, 16)),
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
             itemBuilder: (context, index) {
               final product = featuredProducts[index];
               return Container(
-                width: wp(context, 280),
+                width: 280,
                 decoration: BoxDecoration(
                   color: const Color(0xFFA0DAD4),
                   borderRadius: BorderRadius.circular(20),
@@ -193,37 +165,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        product.category.toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
                     const Spacer(),
                     SizedBox(
-                      width: wp(context, 200), // Limiting text width
+                      width: 200,
                       child: Text(
                         product.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: wp(context, 16),
+                          fontSize: 16,
                         ),
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black38,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            product.category.toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "\$${product.price.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -235,8 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ----------------------------
-  Widget buildCategorySection(BuildContext context) {
+  Widget buildCategorySection() {
     return Column(
       children: [
         Row(
@@ -247,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             TextButton(
-              onPressed: _fetchProducts, // Refresh products on tap
+              onPressed: _fetchProducts,
               child: const Text(
                 "Refresh",
                 style: TextStyle(
@@ -258,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        SizedBox(height: hp(context, 12)),
+        const SizedBox(height: 12),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -266,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 categories.map((category) {
                   final isSelected = category == _selectedCategory;
                   return Padding(
-                    padding: EdgeInsets.only(right: wp(context, 12)),
+                    padding: const EdgeInsets.only(right: 12),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -302,8 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ----------------------------
-  Widget buildPopularSection(BuildContext context) {
+  Widget buildPopularSection() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -356,17 +340,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        SizedBox(height: hp(context, 16)),
+        const SizedBox(height: 16),
         SizedBox(
-          height: hp(context, 280),
+          height: 280,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
-            separatorBuilder: (_, __) => SizedBox(width: wp(context, 16)),
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
             itemBuilder: (context, index) {
               final product = products[index];
               return Container(
-                width: wp(context, 200),
+                width: 200,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -390,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Image.network(
                             product.image,
-                            height: hp(context, 180),
+                            height: 180,
                             width: double.infinity,
                             fit: BoxFit.cover,
                           ),
@@ -476,42 +460,54 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ----------------------------
-  Widget buildBottomNavBar(BuildContext context) {
+  Widget buildBottomNavBar() {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       notchMargin: 8,
       color: Colors.white,
       elevation: 8,
-      child: SizedBox(
+      child: const SizedBox(
         height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.home),
-              color: const Color(0xFFA0DAD4),
-              onPressed: () {},
+              icon: Icon(Icons.home),
+              color: Color(0xFFA0DAD4),
+              onPressed: null,
             ),
             IconButton(
-              icon: const Icon(Icons.search),
+              icon: Icon(Icons.search),
               color: Colors.grey,
-              onPressed: () {},
+              onPressed: null,
             ),
-            const SizedBox(width: 48),
+            SizedBox(width: 48),
             IconButton(
-              icon: const Icon(Icons.notifications_none),
+              icon: Icon(Icons.notifications_none),
               color: Colors.grey,
-              onPressed: () {},
+              onPressed: null,
             ),
             IconButton(
-              icon: const Icon(Icons.person_outline),
+              icon: Icon(Icons.person_outline),
               color: Colors.grey,
-              onPressed: () {},
+              onPressed: null,
             ),
           ],
         ),
       ),
     );
+  }
+
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) {
+      return "🌤 Good Morning";
+    } else if (hour >= 12 && hour < 18) {
+      return "☀️ Good Afternoon";
+    } else if (hour >= 18 && hour < 22) {
+      return "🌇 Good Evening";
+    } else {
+      return "🌙 Good Night";
+    }
   }
 }
