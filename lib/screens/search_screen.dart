@@ -336,7 +336,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         radius: 12,
                                         backgroundColor: Color(0xFFA0DAD4),
                                         child: Icon(
-                                          Icons.person,
+                                          Icons.category_outlined,
                                           size: 16,
                                           color: Colors.white,
                                         ),
@@ -354,13 +354,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ],
                               ),
                             ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: Colors.grey,
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0B2E28),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              onPressed: () {},
+                              child: const Icon(
+                                Icons.arrow_forward,
+                                size: 18,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
