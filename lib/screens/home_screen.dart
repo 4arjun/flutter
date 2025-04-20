@@ -112,6 +112,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 }
 
 Widget appbar(BuildContext context) {
+  final int currentHour = DateTime.now().hour;
+
+  String greeting;
+  String iconAsset;
+
+  if (currentHour < 12) {
+    greeting = "Good Morning";
+    iconAsset = 'assets/images/Sun.svg';
+  } else if (currentHour < 17) {
+    greeting = "Good Afternoon";
+    iconAsset = 'assets/images/Sun.svg';
+  } else {
+    greeting = "Good Evening";
+    iconAsset = 'assets/images/moon.svg';
+  }
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -122,10 +138,10 @@ Widget appbar(BuildContext context) {
           Flexible(
             child: Row(
               children: [
-                SvgPicture.asset('assets/icons/Sun.svg', width: 18, height: 18),
+                SvgPicture.asset(iconAsset, width: 18, height: 18),
                 const SizedBox(width: 5),
-                const Text(
-                  "Good Morning",
+                Text(
+                  greeting,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ],
