@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lascade_demo_app/screens/signup.dart';
-import '../providers/Auth_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import "package:lascade_demo_app/providers/product_providers.dart";
+import '../navigator/main_tab_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -311,9 +310,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        // Data is already prefetched on screen load
-                        // Just proceed with login
-                        ref.read(authProvider.notifier).toggleAuth();
+                        // Navigate to MainTabScreen
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const MainTabScreen(),
+                          ),
+                        );
                       },
                       child: Text(
                         "Login",
@@ -328,9 +330,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   SizedBox(height: hp(context, 12)),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Signup()),
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const MainTabScreen(),
+                        ),
                       );
                     },
                     child: Text(
@@ -353,7 +356,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             top: hp(context, 50),
             right: wp(context, 15),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const MainTabScreen(),
+                  ),
+                );
+              },
               child: Text(
                 "Later",
                 style: TextStyle(

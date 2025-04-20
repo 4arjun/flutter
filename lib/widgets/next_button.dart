@@ -11,11 +11,7 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: SvgPicture.asset(
-        'assets/icons/ArrowRight.svg',
-        width: 24,
-        height: 24,
-      ),
+      child: SvgPicture.asset('assets/images/ArrowRight.svg', width: 32),
     );
   }
 }

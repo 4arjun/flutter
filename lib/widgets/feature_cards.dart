@@ -4,11 +4,16 @@ class FeatureCards extends StatelessWidget {
   final String title;
   final String image;
   final VoidCallback onTap;
+  final double price;
+  final String category;
+
   const FeatureCards({
     super.key,
     required this.title,
     required this.image,
     required this.onTap,
+    required this.price,
+    required this.category,
   });
 
   @override
@@ -49,24 +54,84 @@ class FeatureCards extends StatelessWidget {
               ),
             ),
 
+            // Product info container at the bottom
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 12, left: 10),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 160,
-                  ), // adjust as needed
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product title
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 160,
+                      ),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    
+                    const SizedBox(height: 4),
+                    
+                    // Category and Price in the same row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Category on the left
+                        Flexible(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.category,
+                                size: 14,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  category.capitalize(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        // Price on the right
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.attach_money,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              price.toStringAsFixed(2),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -74,5 +139,12 @@ class FeatureCards extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// Extension to capitalize the first letter of a string
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

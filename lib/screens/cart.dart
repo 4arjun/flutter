@@ -180,7 +180,7 @@ class _CartState extends ConsumerState<Cart> {
                       children: [
                         _buildQuantityButton(
                           icon: SvgPicture.asset(
-                            'assets/icons/minus.svg',
+                            'assets/images/minus.svg',
                             width: 24,
                             height: 24,
                           ),
@@ -200,7 +200,7 @@ class _CartState extends ConsumerState<Cart> {
                         const SizedBox(width: 12),
                         _buildQuantityButton(
                           icon: SvgPicture.asset(
-                            'assets/icons/plus.svg',
+                            'assets/images/plus.svg',
                             width: 24,
                             height: 24,
                           ),
@@ -228,7 +228,7 @@ class _CartState extends ConsumerState<Cart> {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(14),
-      child: Container(width: 28, height: 28, child: icon),
+      child: SizedBox(width: 28, height: 28, child: icon),
     );
   }
 

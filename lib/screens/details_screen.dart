@@ -44,10 +44,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               imageHeight = calculatedHeight;
             });
 
-            print("Original: $originalWidth x $originalHeight");
-            print(
-              "Calculated height for width $targetWidth: $calculatedHeight",
-            );
+           
           }),
         );
   }
@@ -221,7 +218,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           });
                                         },
                                         child: SvgPicture.asset(
-                                          'assets/icons/minus.svg',
+                                          'assets/images/minus.svg',
                                           width: 30,
                                           height: 30,
                                         ),
@@ -245,7 +242,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           });
                                         },
                                         child: SvgPicture.asset(
-                                          'assets/icons/plus.svg',
+                                          'assets/images/plus.svg',
                                           width: 30,
                                           height: 30,
                                         ),

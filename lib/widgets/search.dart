@@ -25,7 +25,7 @@ class Search extends StatelessWidget {
       child: Row(
         children: [
           icon != null && icon == true
-              ? SvgPicture.asset('assets/icons/Search.svg', height: 40)
+              ? SvgPicture.asset('assets/images/Search.svg', height: 40)
               : SizedBox(width: 15),
           Expanded(
             child: TextField(

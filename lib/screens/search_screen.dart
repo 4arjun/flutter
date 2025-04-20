@@ -26,11 +26,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       categoryProductProvider(selectedCategory),
     );
     final editorsChoice = ref.watch(categoryProductProvider(selectedCategory));
-    bool _errorShown = false;
-    void _showErrorFlushbar(BuildContext context, String message) {
-      if (_errorShown) return;
+    bool errorShown = false;
+    void showErrorFlushbar(BuildContext context, String message) {
+      if (errorShown) return;
 
-      _errorShown = true;
+      errorShown = true;
 
       Flushbar(
         message: message,
@@ -83,16 +83,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       setState(() {
                         selectedCategory = category;
                       });
-                      print("Selected category: $selectedCategory");
                     },
                   ),
                 ],
               ),
             ),
             SizedBox(height: 20),
-            _popular(popularProducts, _showErrorFlushbar, _errorShown),
+            _popular(popularProducts, showErrorFlushbar, errorShown),
             SizedBox(height: 40),
-            _editors(editorsChoice, _showErrorFlushbar, _errorShown),
+            _editors(editorsChoice, showErrorFlushbar, errorShown),
           ],
         ),
       ),
@@ -131,7 +130,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               data:
                   (products) => ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                    itemCount: 4,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 13),
@@ -199,7 +198,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               data:
                   (products) => ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: 2,
+                    itemCount: 3,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 13),

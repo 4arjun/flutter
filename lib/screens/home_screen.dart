@@ -22,11 +22,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool _errorShown = false;
-    void _showErrorFlushbar(BuildContext context, String message) {
-      if (_errorShown) return;
+    bool errorShown = false;
+    void showErrorFlushbar(BuildContext context, String message) {
+      if (errorShown) return;
 
-      _errorShown = true;
+      errorShown = true;
 
       Flushbar(
         message: message,
@@ -43,7 +43,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       setState(() {
         selectedCategory = category;
       });
-      print("Selected category: $selectedCategory");
     });
     final featuredProducts = ref.watch(featuredProductsProvider);
     final popularProducts = ref.watch(
@@ -76,8 +75,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             _featuredSpace(
               context,
               featuredProducts,
-              _showErrorFlushbar,
-              _errorShown,
+              showErrorFlushbar,
+              errorShown,
             ),
 
             const SizedBox(height: 40),
@@ -101,8 +100,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             _popularSpace(
               context,
               popularProducts,
-              _showErrorFlushbar,
-              _errorShown,
+              showErrorFlushbar,
+              errorShown,
             ),
           ],
         ),
@@ -128,39 +127,47 @@ Widget appbar(BuildContext context) {
     iconAsset = 'assets/images/moon.svg';
   }
 
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // User greeting
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      // First row: Greeting and cart icon on same level
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: Row(
-              children: [
-                SvgPicture.asset(iconAsset, width: 18, height: 18),
-                const SizedBox(width: 5),
-                Text(
-                  greeting,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
+          // Greeting
+          Row(
+            children: [
+              SvgPicture.asset(iconAsset, width: 18, height: 18),
+              const SizedBox(width: 5),
+              Text(
+                greeting,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+            ],
           ),
-          const Text(
-            "Krishnan E",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+
+          // Cart Icon
+          GestureDetector(
+            onTap: () {
+              // Your action here (e.g., navigate to cart screen)
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => Cart()),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/images/Buy.svg',
+              width: 24,
+              height: 24,
+            ),
           ),
         ],
       ),
 
-      // Cart Icon
-      GestureDetector(
-        onTap: () {
-          // Your action here (e.g., navigate to cart screen)
-          Navigator.push(context, MaterialPageRoute(builder: (_) => Cart()));
-        },
-        child: SvgPicture.asset('assets/icons/Buy.svg', width: 24, height: 24),
+      // Second row: User name
+      const Text(
+        "Alena Sabyan",
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
       ),
     ],
   );
@@ -180,11 +187,27 @@ Widget _featuredSpace(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
             itemBuilder: (context, index) {
+              // Extract the category from description (assuming format: "category: value;")
+              String category = "other";
+              if (products[index].description.contains("category:")) {
+                final categoryMatch = RegExp(
+                  r'category:\s*([^;]+)',
+                ).firstMatch(products[index].description);
+                if (categoryMatch != null) {
+                  category = categoryMatch.group(1)?.trim() ?? "other";
+                }
+              } else {
+                // Fallback: use a general category or extract from somewhere else
+                category = "electronics";
+              }
+
               return Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: FeatureCards(
                   title: products[index].title,
                   image: products[index].image,
+                  price: products[index].price,
+                  category: category,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -264,7 +287,7 @@ Widget _popularSpace(
   bool errorShown,
 ) {
   return SizedBox(
-    height: 320,
+    height: 290,
     child: popularProducts.when(
       data:
           (products) => ListView.builder(

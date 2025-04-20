@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
-import "package:lascade_demo_app/widgets/button.dart";
 import '../models/product.dart';
 import "package:lascade_demo_app/models/cart_item.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/favorite_providers.dart';
+import '../providers/cart_providers.dart';
 
 class PopularCards extends ConsumerStatefulWidget {
   final Product product;
@@ -23,7 +23,6 @@ class _PopularState extends ConsumerState<PopularCards> {
   @override
   Widget build(BuildContext context) {
     final isFav = ref.watch(favoriteProvider).contains(widget.product.id);
-    // TODO: implement build
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -70,12 +69,12 @@ class _PopularState extends ConsumerState<PopularCards> {
                             child:
                                 isFav
                                     ? SvgPicture.asset(
-                                      "assets/icons/Active.svg",
+                                      "assets/images/Active.svg",
                                       width: 60,
                                       height: 60,
                                     )
                                     : SvgPicture.asset(
-                                      "assets/icons/Love.svg",
+                                      "assets/images/Love.svg",
                                       width: 60,
                                       height: 60,
                                     ),
@@ -107,24 +106,54 @@ class _PopularState extends ConsumerState<PopularCards> {
                         padding: EdgeInsets.only(top: 10),
                         child: Column(
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Cost: \$${widget.product.price}",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Price with dollar icon
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.attach_money,
+                                        size: 16,
+                                        color: Colors.black87,
+                                      ),
+                                      Text(
+                                        widget.product.price.toStringAsFixed(2),
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
 
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Button(
-                                item: CartItem(product: widget.product),
-                              ), // Your custom button
+                                  // Cart icon button
+                                  InkWell(
+                                    onTap: () {
+                                      ref
+                                          .read(cartProvider.notifier)
+                                          .addToCart(
+                                            CartItem(product: widget.product),
+                                          );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF37A99B),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.shopping_cart,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
