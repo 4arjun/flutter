@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lascade_demo_app/screens/home_screen.dart';
-import 'screens/login_screen.dart';
+import 'package:lascade_demo_app/navigator/main_tab_screen.dart';
+import 'package:lascade_demo_app/navigator/auth_stack.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lascade_demo_app/providers/Auth_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
     return MaterialApp(
-      title: 'Lascade Store',
-      theme: ThemeData(
-        fontFamily: 'Inter', // Match Figma font if needed
-      ),
-      home: const HomeScreen(),
+      title: 'Nested Navigation App',
       debugShowCheckedModeBanner: false,
+      home: authState.auth ? const MainTabScreen() : const AuthStack(),
     );
   }
 }

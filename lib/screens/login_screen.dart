@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lascade_demo_app/screens/signup.dart';
+import '../providers/Auth_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import "package:lascade_demo_app/providers/product_providers.dart";
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   double wp(BuildContext context, double width) =>
       MediaQuery.of(context).size.width * (width / 430);
   double hp(BuildContext context, double height) =>
       MediaQuery.of(context).size.height * (height / 932);
+
+  @override
+  void initState() {
+    super.initState();
+    // Prefetch product data as soon as login screen loads
+    _prefetchProductData();
+  }
+
+  Future<void> _prefetchProductData() async {
+    // Use Future.wait to fetch multiple resources in parallel
+    await Future.wait([
+      ref.read(featuredProductsProvider.future),
+      ref.read(categoryProductProvider('electronics').future),
+      ref.read(allProductsProvider.future),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +43,16 @@ class LoginScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            color: const Color(0xFF9ED2C6),
+            color: const Color.fromRGBO(112, 185, 190, 1),
           ),
 
           // Curves
           Positioned(
-            top: hp(context, 121),
-            left: wp(context, -12.32),
+            top: hp(context, 41),
+            left: wp(context, -2.32),
             child: SvgPicture.asset(
               'assets/images/curve1.svg',
-              width: wp(context, 42),
+              width: wp(context, 30),
             ),
           ),
           Positioned(
@@ -46,13 +71,166 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
 
+          Positioned(
+            top: hp(context, 300),
+            left: wp(context, 110),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 275),
+            left: wp(context, 200),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 4),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 230),
+            left: wp(context, 225),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 7),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 175),
+            left: wp(context, 305),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 315),
+            left: wp(context, 295),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 5),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 435),
+            left: wp(context, 300),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 9),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 400),
+            left: wp(context, 390),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 490),
+            left: wp(context, 240),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 3),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 417),
+            left: wp(context, 116),
+            child: SvgPicture.asset(
+              'assets/images/dot.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 267),
+            left: wp(context, 76),
+            child: SvgPicture.asset(
+              'assets/images/leaf1.svg',
+              width: wp(context, 12),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 414),
+            left: wp(context, 355),
+            child: SvgPicture.asset(
+              'assets/images/leaf1.svg',
+              width: wp(context, 22),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 220),
+            left: wp(context, 385),
+            child: SvgPicture.asset(
+              'assets/images/leaf2.svg',
+              width: wp(context, 12),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 545),
+            left: wp(context, 50),
+            child: SvgPicture.asset(
+              'assets/images/leaf3.svg',
+              width: wp(context, 12),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 530),
+            left: wp(context, 345),
+            child: SvgPicture.asset(
+              'assets/images/particle1.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 485),
+            left: wp(context, 50),
+            child: SvgPicture.asset(
+              'assets/images/particle2.svg',
+              width: wp(context, 10),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 395),
+            left: wp(context, 210),
+            child: SvgPicture.asset(
+              'assets/images/particle3.svg',
+              width: wp(context, 8),
+            ),
+          ),
+
+          Positioned(
+            top: hp(context, 185),
+            left: wp(context, 210),
+            child: SvgPicture.asset(
+              'assets/images/particle4.svg',
+              width: wp(context, 5),
+            ),
+          ),
+
           // Decorative Images
           Positioned(
-            top: hp(context, 240),
-            left: wp(context, 100),
+            top: hp(context, 195),
+            left: wp(context, 90),
             child: SvgPicture.asset(
               'assets/images/egg.svg',
-              width: wp(context, 79),
+              width: wp(context, 85),
             ),
           ),
           Positioned(
@@ -60,7 +238,7 @@ class LoginScreen extends StatelessWidget {
             right: wp(context, 60),
             child: SvgPicture.asset(
               'assets/images/salmon.svg',
-              width: wp(context, 88),
+              width: wp(context, 92),
             ),
           ),
           Positioned(
@@ -100,7 +278,7 @@ class LoginScreen extends StatelessWidget {
             left: wp(context, 250),
             child: SvgPicture.asset(
               'assets/images/lemon.svg',
-              width: wp(context, 55),
+              width: wp(context, 60),
             ),
           ),
 
@@ -132,7 +310,11 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(wp(context, 12)),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // Data is already prefetched on screen load
+                        // Just proceed with login
+                        ref.read(authProvider.notifier).toggleAuth();
+                      },
                       child: Text(
                         "Login",
                         style: TextStyle(
@@ -145,7 +327,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: hp(context, 12)),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Signup()),
+                      );
+                    },
                     child: Text(
                       "Create New Account",
                       style: TextStyle(
@@ -164,7 +351,7 @@ class LoginScreen extends StatelessWidget {
           // Later Button
           Positioned(
             top: hp(context, 50),
-            right: wp(context, 20),
+            right: wp(context, 15),
             child: TextButton(
               onPressed: () {},
               child: Text(
