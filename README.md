@@ -1,7 +1,7 @@
 # Lascade - Demo E-Commerce Application
 
 ## Overview
-Lascade is a mobile e-commerce application built using Flutter, which integrates with the Fake Store API to showcase product listings, product details, and cart functionalities. The app retrieves product data dynamically and presents it in a responsive, user-friendly interface. It is designed to handle state management using Riverpod for a scalable and reactive architecture. 
+This is a Demo mobile e-commerce application built using Flutter, which integrates with the Fake Store API to showcase product listings, product details, and cart functionalities. The app retrieves product data dynamically and presents it in a responsive, user-friendly interface. It is designed to handle state management using Riverpod for a scalable and reactive architecture. 
 
 
 ## Features
